@@ -1,6 +1,8 @@
 Config = {}
 
-Config.Debug = true
+Config.SpeedLimitActive = true -- true | false >> turns on/off the limits
+
+Config.Debug = false
 
 -- kmh or mph
 Config.SpeedType = "kmh"
@@ -29,4 +31,40 @@ Config.ClassesLimit = {
     [19] = 100, -- Military
     [20] = 100, -- Commercial
     [21] = 100, -- Trains
+}
+
+Config.UsingCustomClasses = true -- true | false >> will override the default classes above
+
+--[[
+    to create a custom class simply copy this :
+
+    ["SET_THE_CLASS_NAME_HERE"] = {
+        limit = 0, -- set the limit ( a number ! )
+        vehicles = {
+            -- write the names of the vehicles ( example : "panto" )
+        }
+    },
+
+    and add it inside the array below
+
+]]
+Config.CustomClasses = {
+    ["alpha"] = {
+        limit = 70,
+        vehicles = {
+            "panto"
+        }
+    },
+    ["beta"] = {
+        limit = 150,
+        vehicles = {
+            "t20"
+        }
+    },
+    ["gamma"] = {
+        limit = 110,
+        vehicles = {
+            "primo"
+        }
+    }
 }
