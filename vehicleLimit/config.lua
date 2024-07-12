@@ -1,8 +1,30 @@
 Config = {}
 
-Config.SpeedLimitActive = true -- true | false >> turns on/off the limits
+Config.SpeedLimitActive = true -- true | false >> turns on/off the script
 
 Config.Debug = false
+
+------------------------------------------------------
+----- Shutdown settings
+------------------------------------------------------
+
+Config.UseDelay = true -- true | false --> if set to false, once the vehicle reaches the speed limit it will immediatly be shut down
+
+-- warning delay before shutting down vehicle
+Config.Delay = 3000
+
+-- sends a notification to the player as warning before
+-- shutting down the vehicle after the set delay
+Config.Warn = function(text)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString("You are over the speed limit ! Vehicle will be disabled in 3 seconds unless you slow down !")
+    DrawNotification(false, false)
+    PlaySoundFrontend(-1, "TIMER_STOP", "HUD_MINI_GAME_SOUNDSET", 1)
+end
+
+------------------------------------------------------
+----- Default GTA vehicle classes
+------------------------------------------------------
 
 -- kmh or mph
 Config.SpeedType = "kmh"
@@ -32,6 +54,10 @@ Config.ClassesLimit = {
     [20] = 100, -- Commercial
     [21] = 100, -- Trains
 }
+
+------------------------------------------------------
+----- Custom vehicle classes
+------------------------------------------------------
 
 Config.UsingCustomClasses = true -- true | false >> will override the default classes above
 

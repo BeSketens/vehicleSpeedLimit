@@ -3,6 +3,17 @@ if Config.SpeedLimitActive then
         local interval, ped
         local speedType = Config.SpeedType
 
+        local multiplier
+
+        if speedType == "kmh" then
+            multiplier = 3.6
+        elseif speedType == "mph" then
+            multiplier = 2.236936
+        else
+            print("[ERROR] : Wrong speed type chosen - Script stopped")
+            return
+        end
+
         local vehicle, vehicleClass, limit, speed
         while true do
             vehicleClass = false
@@ -30,14 +41,7 @@ if Config.SpeedLimitActive then
                 vehicleClass, limit = GetCustomVehicleClass(vehicle)
             end
 
-            if speedType == "kmh" then
-                speed = math.ceil(GetEntitySpeed(vehicle) * 3.6)
-            elseif speedType == "mph" then
-                speed = math.ceil(GetEntitySpeed(vehicle) * 2.236936)
-            else
-                print("ERROR : wrong speed type > kmh or mph only") -- dont change it to printDebug
-                goto next
-            end
+            speed = math.ceil(GetEntitySpeed(vehicle) * multiplier)
 
             -- goto added because with the custom classes some
             -- vehicles won't have a set speed limit
@@ -49,11 +53,19 @@ if Config.SpeedLimitActive then
             printDebug("Limit : ", limit .. speedType)
 
             if speed > limit then
-                printDebug("----------")
-                printDebug("- Vehicle engine killed -")
-                printDebug("----------")
-                SetVehicleEngineOn(vehicle, false, true, true)
-                SetVehicleEngineHealth(vehicle, 0.00)
+                if Config.UseDelay then
+                    Config.Warn()
+
+                    Wait(Config.Delay)
+
+                    speed = math.ceil(GetEntitySpeed(vehicle) * multiplier)
+
+                    if speed > limit then
+                        killVehicle(vehicle)
+                    end
+                else
+                    killVehicle(vehicle)
+                end
             end
 
             ::next::
@@ -78,4 +90,12 @@ function GetCustomVehicleClass(vehicle)
         end
     end
     return false
+end
+
+function killVehicle(veh)
+    printDebug("----------")
+    printDebug("- Vehicle engine killed -")
+    printDebug("----------")
+    SetVehicleEngineOn(veh, false, true, true)
+    SetVehicleEngineHealth(veh, 0.00)
 end
