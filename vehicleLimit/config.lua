@@ -11,7 +11,7 @@ Config.Debug = false
 Config.UseDelay = true -- true | false --> if set to false, once the vehicle reaches the speed limit it will immediatly be shut down
 
 -- warning delay before shutting down vehicle
-Config.Delay = 3000
+Config.Delay = 1000 * 3 -- 1000ms * X
 
 -- sends a notification to the player as warning before
 -- shutting down the vehicle after the set delay
